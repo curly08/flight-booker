@@ -1,9 +1,16 @@
 <h1>Search for Flights!</h1>
 
 <%= simple_form_for :search, url: flights_path, method: 'GET' do |f| %>
-  <%= f.input :departure_airport, label: 'Leaving from:', collection: @airport_options, required: false %>
-  <%= f.input :arrival_airport, label: 'Arriving at:', collection: @airport_options, required: false %>
-  <%= f.input :departure_time, label: 'Departure time:', collection: @available_dates, required: false %>
+  <%= f.input :departure_airport, label: 'Leaving from:', collection: @airport_options, label_method: :second, value_method: :first, required: false %>
+  <%= f.input :arrival_airport, label: 'Arriving at:', collection: @airport_options, label_method: :second, value_method: :first, required: false %>
+  <%= f.input :departure_time, label: 'Departure time:', collection: @available_dates, label_method: :second, value_method: :first, required: false %>
   <%= f.input :passenger_count, label: 'Number of passengers:', collection: 1..4, required: false %>
   <%= f.submit 'Find Flights' %>
+<% end %>
+
+<% @flights.each do |flight| %>
+  <p>Flight Id: <%= flight.id %></p>
+  <p>Leaving from: <%= flight.departure_airport.code %></p>
+  <p>Arriving at: <%= flight.arrival_airport.code %></p>
+  <p>Departure time: <%= flight.departure_time %></p>
 <% end %>

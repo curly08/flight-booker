@@ -14,7 +14,7 @@ airport_codes.each do |code|
   Airport.create(code: code)
 end
 
-8.times do
+15.times do
   da_id = Airport.order(Arel.sql('RANDOM()')).first.id
   aa_id = Airport.order(Arel.sql('RANDOM()')).where('id != ?', da_id).first.id
   d_time = rand(1.year).seconds.from_now
