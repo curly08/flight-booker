@@ -1,8 +1,9 @@
 class FlightsController < ApplicationController
   def index
-    @airport_options = Airport.all.map { |a| [a.id, a.code] }
-    @available_dates = Flight.all.map { |f| [f.departure_time, f.departure_time.strftime('%d/%m/%Y')] }
-    @flights = Flight.filter(flight_search_params)
+    @flights = Flight.filter(flight_search_params).map do |f|
+      flight_info = "ID: #{f.id}\nLeaving: #{f.departure_airport.code}\nArriving: #{f.arrival_airport.code}\nDeparture Time: #{f.departure_time.strftime('%d/%m/%Y %I:%M%P')}"
+      [flight_info, f]
+    end
   end
 
   private
