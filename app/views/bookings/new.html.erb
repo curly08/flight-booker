@@ -7,12 +7,11 @@
 <h3>Departure Time: <%= @flight.departure_time.strftime('%d/%m/%Y %I:%M%P') %></h3>
 
 <%= simple_form_for @booking do |f| %>
-  <%= f.hidden_field :flight_id, value: params[:book_flight][:selected_flight_id] %>
+  <%= f.hidden_field :flight_id, value: params[:book_flight] ? params[:book_flight][:selected_flight_id] : params[:booking][:flight_id] %>
   <%= f.fields_for :passengers do |p| %>
     <h4>Passenger Details</h4>
-    <%= p.input :name, label: 'Passenger Name:' %>
-    <%= p.input :email, label: 'Passenger Email:' %>
+    <%= p.input :name, label: 'Passenger Name:', required: true %>
+    <%= p.input :email, label: 'Passenger Email:', required: true %>
   <% end %>
-  <%= f.submit 'Create Booking(s)' %>
+  <%= f.submit 'Create Booking' %>
 <% end %>
-

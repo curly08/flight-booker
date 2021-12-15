@@ -1,10 +1,24 @@
 <h1>Search for Flights!</h1>
 
-<%= simple_form_for :search, url: flights_path, method: 'GET' do |f| %>
-  <%= f.input :departure_airport, label: 'Leaving from:', collection: Airport.all.pluck(:code, :id), required: false %>
-  <%= f.input :arrival_airport, label: 'Arriving at:', collection: Airport.all.pluck(:code, :id), required: false %>
-  <%= f.input :departure_time, label: 'Departure time:', collection: Flight.all.map { |f| [f.departure_time.strftime('%d/%m/%Y'), f.departure_time] }, required: false %>
-  <%= f.input :passenger_count, label: 'Number of passengers:', collection: 1..4, required: true %>
+<%= simple_form_for :search, url: flights_path, method: :get, local: true do |f| %>
+  <%= f.input :departure_airport, label: 'Leaving from:',
+              collection: Airport.all.pluck(:code, :id),
+              selected: params[:search] ? params[:search][:departure_airport] : '',
+              include_blank: true,
+              required: false %>
+  <%= f.input :arrival_airport, label: 'Arriving at:',
+              collection: Airport.all.pluck(:code, :id),
+              selected: params[:search] ? params[:search][:arrival_airport] : '',
+              include_blank: true,
+              required: false %>
+  <%= f.input :departure_time, label: 'Departure time:',
+              collection: Flight.all.map { |f| [f.departure_time.strftime('%d/%m/%Y'), f.departure_time] },
+              selected: params[:search] ? params[:search][:departure_time] : '',
+              include_blank: true,
+              required: false %>
+  <%= f.input :passenger_count, label: 'Number of passengers:',
+              collection: 1..4, selected: params[:search] ? params[:search][:passenger_count] : 1,
+              include_blank: false %>
   <%= f.submit 'Find Flights' %>
 <% end %>
 
@@ -13,7 +27,8 @@
 
   <%= simple_form_for :book_flight, url: new_booking_path, method: 'GET' do |f| %>
     <%= f.hidden_field :passenger_count, value: params[:search][:passenger_count] %>
-    <%= f.input :selected_flight_id, label: false, as: :radio_buttons, collection: @flights %>
+    <%= f.input :selected_flight_id, label: false, as: :radio_buttons,
+                collection: @flights, input_html: { class: "form-control", required: true } %>
     <%= f.submit 'Book Flight' %>
   <% end %>
 <% end %>
