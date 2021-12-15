@@ -1,1 +1,19 @@
 <h1>Book Flight</h1>
+
+<h2>Selected Flight Details</h2>
+<h3>Flight ID: <%= @flight.id %></h3>
+<h3>Leaving From: <%= @flight.departure_airport.code %></h3>
+<h3>Arriving At: <%= @flight.arrival_airport.code %></h3>
+<h3>Departure Time: <%= @flight.departure_time.strftime('%d/%m/%Y %I:%M%P') %></h3>
+
+<%= simple_form_for @booking do |f| %>
+  <% @passenger_count.times do %>
+    <h4>Passenger Details</h4>
+    <%= f.fields_for @booking.passengers.build do |p| %>
+      <%= p.input :name, label: 'Passenger Name:' %>
+      <%= p.input :email, label: 'Passenger Email:' %>
+    <% end %>
+  <% end %>
+  <%= f.submit 'Create Booking(s)' %>
+<% end %>
+
