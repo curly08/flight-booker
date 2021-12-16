@@ -12,7 +12,7 @@
               include_blank: true,
               required: false %>
   <%= f.input :departure_time, label: 'Departure time:',
-              collection: Flight.all.map { |f| [f.departure_time.strftime('%d/%m/%Y'), f.departure_time] },
+              collection: Flight.select("DISTINCT(departure_time)").order("departure_time ASC").map { |f| [f.departure_time.strftime('%d/%m/%Y'), f.departure_time] },
               selected: params[:search] ? params[:search][:departure_time] : '',
               include_blank: true,
               required: false %>
