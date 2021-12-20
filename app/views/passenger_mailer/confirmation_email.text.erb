@@ -1,0 +1,8 @@
+Welcome to flight-booker.com, <%= @passenger.name %>
+===============================================
+
+You have successfully booked a seat on Flight <%= @flight.id %> from <%= @flight.departure_airport.code %> to <%= @flight.arrival_airport.code %>, leaving on <%= @flight.departure_time.strftime('%d/%m/%Y %I:%M%P') %>.
+
+To view your booking details, just follow this link: <%= @booking_url %>
+
+Thanks for booking a flight with us!
